@@ -1,0 +1,82 @@
+specVersion: 1.0.0
+schema:
+  file: ./schema.graphql
+description: ...
+dataSources:
+  - kind: ethereum
+    name: PoolConfigurator
+    network: arbitrum-one
+    # network: mainnet
+    source:
+      abi: PoolConfigurator
+      address: "0x8145eddDf43f50276641b55bd3AD95944510021E"
+      startBlock: 7742433
+      # address: "0x64b761D848206f447Fe2dd461b0c635Ec39EbB27"
+      # startBlock: 16291130
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities: []
+      abis:
+        - name: PoolConfigurator
+          file: ./abis/PoolConfigurator.json
+        - name: AToken
+          file: ./abis/AToken.json
+      eventHandlers:
+        - event: ReserveInitialized(indexed address,indexed address,address,address,address)
+          handler: handleReserveInitialized
+      file: ./src/mapping.ts
+  - kind: ethereum
+    name: Pool
+    network: arbitrum-one
+    # network: mainnet
+    source:
+      abi: Pool
+      address: "0x794a61358D6845594F94dc1DB02A252b5b4814aD"
+      startBlock: 7742429
+      # address: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2"
+      # startBlock: 16291127
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities: []
+      abis:
+        - name: Pool
+          file: ./abis/Pool.json
+        - name: AToken
+          file: ./abis/AToken.json
+      eventHandlers:
+        - event: ReserveDataUpdated(indexed address,uint256,uint256,uint256,uint256,uint256)
+          handler: handleReserveDataUpdated
+        - event: Supply(indexed address,address,indexed address,uint256,indexed uint16)
+          handler: handleSupply
+        - event: Withdraw(indexed address,indexed address,indexed address,uint256)
+          handler: handleWithdraw
+        - event: Borrow(indexed address,address,indexed address,uint256,uint8,uint256,indexed uint16)
+          handler: handleBorrow
+        - event: Repay(indexed address,indexed address,indexed address,uint256,bool)
+          handler: handleRepay
+        - event: LiquidationCall(indexed address,indexed address,indexed address,uint256,uint256,address,bool)
+          handler: handleLiquidationCall
+      file: ./src/mapping.ts
+templates:
+  - kind: ethereum
+    name: AToken
+    network: arbitrum-one
+    # network: mainnet
+    source:
+      abi: AToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities: []
+      abis:
+        - name: AToken
+          file: ./abis/AToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

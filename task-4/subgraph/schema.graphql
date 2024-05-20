@@ -1,0 +1,38 @@
+type AToken @entity {
+  id: ID!
+  asset: String!
+  stableDebtToken: String!
+  variableDebtToken: String!
+  liquidityIndex: BigInt!
+}
+
+type Asset @entity {
+  id: ID!
+  aToken: AToken!
+}
+
+type Position @entity {
+  # {user}-{asset}
+  id: ID!
+  user: String!
+  asset: Asset!
+  interestRateMode: String
+  totalSuppliedAmount: BigInt!
+  totalBorrowedAmount: BigInt!
+  netSuppliedAmount: BigInt!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type PositionHourly @entity {
+  # {user}-{asset}-{hours}
+  id: ID!
+  user: String!
+  asset: Asset!
+  hours: Int!
+  totalSuppliedAmount: BigInt!
+  totalBorrowedAmount: BigInt!
+  netSuppliedAmount: BigInt!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
